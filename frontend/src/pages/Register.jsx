@@ -59,7 +59,7 @@ function Register() {
       toast.success(data.message || "User registered successfully",{
         duration:3000,
       });
-      setProfile(data);
+      setProfile(data.newUser);
       setIsAuthenticated(true);
       setName("");
       setEmail("");

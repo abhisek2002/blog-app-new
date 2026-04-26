@@ -32,7 +32,7 @@ function Login() {
         toast.success(data.message || "User logged in successfully", {
           duration: 3000,
         });
-        setProfile(data);
+        setProfile(data.user);
         setIsAuthenticated(true);
         setEmail("");
         setPassword("");

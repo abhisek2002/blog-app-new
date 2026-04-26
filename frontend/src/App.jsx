@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from '../src/components/Navbar';
 import Home from '../src/components/Home';
 import Footer from '../src/components/Footer';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Blogs from '../src/pages/Blogs';
 import About from '../src/pages/About';
 import Contact from '../src/pages/Contact';
@@ -23,15 +23,20 @@ function App() {
     location.pathname,
   );
 
-  const {blogs, isAuthenticated} = useAuth();
+  const {blogs, isAuthenticated, loading} = useAuth();
   // console.log("Blogs from context:", blogs);
   console.log(isAuthenticated);
+  console.log(loading);
+
+  if (loading) {
+    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+  }
 
   return (
     <div>
       {!hideNavbarFooter && <Navbar />}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
