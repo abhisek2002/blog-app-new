@@ -15,6 +15,7 @@ import { Toaster } from 'react-hot-toast';
 import UpdateBlog from '../src/dashboard/UdateBlog'
 import Detail from '../src/pages/Detail';
 import NotFound from './pages/NotFound';
+import CreatorProfile from '../src/pages/CreatorProfile';
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/blog/:id"  element={<Detail />} />
         <Route path='/blog/update/:id' element={<UpdateBlog />} />
+        <Route path="/user/:id" element={<CreatorProfile />} />
 
         <Route path='*' element={<NotFound />} />
       </Routes>

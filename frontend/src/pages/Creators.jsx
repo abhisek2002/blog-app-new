@@ -1,7 +1,6 @@
 import axios from 'axios';
-import React from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Creators() {
 
@@ -28,9 +27,10 @@ function Creators() {
  return (
    <div className="flex flex-wrap justify-center items-center my-20 bg-gray-100">
      {creators.map((creator) => (
-       <div
+       <Link
+         to={`/user/${creator._id}`}
          key={creator._id}
-         className="bg-white shadow-lg rounded-lg overflow-hidden max-w-xs w-full m-2"
+         className="bg-white shadow-lg rounded-lg overflow-hidden max-w-xs w-full m-4 transform hover:scale-105 transition-transform duration-300 hover:shadow-2xl cursor-pointer"
        >
          <div className="relative">
            <img
@@ -54,7 +54,7 @@ function Creators() {
            <p className="text-center text-gray-600 mt-2">{creator.phone}</p>
            <p className="text-center text-gray-600 mt-2">{creator.role}</p>
          </div>
-       </div>
+       </Link>
      ))}
    </div>
  );
