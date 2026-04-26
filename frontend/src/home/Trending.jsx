@@ -47,7 +47,7 @@ function Trending() {
                 <Link to={`/blog/${element._id}`}>
                   <div className="relative">
                     <img
-                      src={element.blogImage.url}
+                      src={element.blogImage.url || element.blogImage}
                       alt="blog"
                       className="w-full h-56 object-cover rounded-t-lg"
                     />

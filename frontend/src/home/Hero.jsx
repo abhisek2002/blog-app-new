@@ -19,7 +19,7 @@ function Hero() {
             >
               <div className="group relative">
                 <img
-                  src={element.blogImage.url}
+                  src={element.blogImage.url || element.blogImage}
                   alt=""
                   className="w-full h-56 object-cover"
                 />

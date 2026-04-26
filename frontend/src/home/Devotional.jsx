@@ -23,7 +23,7 @@ function Devotional() {
                 className="relative rounded-lg overflow-hidden shadow-md transform hover:scale-105 transition-transform duration-300"
               >
                 <img
-                  src={blog?.blogImage?.url}
+                  src={blog?.blogImage?.url || blog?.blogImage}
                   alt={blog?.title}
                   className="w-full h-48 object-cover"
                 />

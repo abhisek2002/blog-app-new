@@ -40,7 +40,7 @@ function UdateBlog() {
         console.log(data);
         setTitle(data?.title);
         setCategory(data?.category);
-        setBlogImage(data?.blogImage?.url);
+        setBlogImage(data?.blogImage?.url || data?.blogImage);
         setAbout(data?.about);
       } catch (error) {
         console.log(error);

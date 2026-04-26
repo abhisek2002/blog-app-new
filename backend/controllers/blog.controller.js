@@ -131,13 +131,44 @@ export const updateBlog = async (req, res) => {
     });
   }
 
-  const updatedBlog = await Blog.findByIdAndUpdate(id, req.body, { new: true });
-
-  if (!updatedBlog) {
+  const blog = await Blog.findById(id);
+  if (!blog) {
     return res.status(404).json({
       message: "Blog not found",
     });
   }
+
+  const newData = { ...req.body };
+
+  if (req.files && req.files.blogImage) {
+    const { blogImage } = req.files;
+    const allowedFormats = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+    if (!allowedFormats.includes(blogImage.mimetype)) {
+      return res.status(400).json({
+        message: "Only jpg, png, jpeg, and webp formats are allowed",
+      });
+    }
+
+    const cloudinaryResponse = await cloudinary.uploader.upload(blogImage.tempFilePath);
+    if (!cloudinaryResponse || cloudinaryResponse.error) {
+      console.log(cloudinaryResponse.error);
+      return res.status(500).json({
+        message: "Error uploading photo to Cloudinary",
+      });
+    }
+
+    newData.blogImage = {
+      public_id: cloudinaryResponse.public_id,
+      url: cloudinaryResponse.secure_url,
+    };
+  } else {
+    // If no new image is uploaded, we don't want to update the blogImage field
+    // especially since req.body.blogImage might be a URL string which would
+    // invalidate the object structure in the database.
+    delete newData.blogImage;
+  }
+
+  const updatedBlog = await Blog.findByIdAndUpdate(id, newData, { new: true });
 
   res.status(200).json(updatedBlog);
 };

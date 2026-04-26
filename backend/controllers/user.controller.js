@@ -76,6 +76,11 @@ export const register = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
+    if (error.code === 11000) {
+      return res.status(400).json({
+        message: "User with this email or phone already exists",
+      });
+    }
     return res.status(500).json({
       message: "Internal server error",
     });
@@ -108,7 +113,7 @@ export const login = async (req, res) => {
 
     if (user.role !== role) {
       return res.status(400).json({
-        message: `Given role {$role} not found `,
+        message: `Given role ${role} not found `,
       });
     }
 

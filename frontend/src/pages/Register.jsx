@@ -70,7 +70,7 @@ function Register() {
       navigateTo("/");
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message || "Please fill the required fields",{
+      toast.error(error.response?.data?.message || "Please fill the required fields",{
         duration:3000,
       });
     }
@@ -137,10 +137,10 @@ function Register() {
             >
               <option value="">Select Your Education</option>
               <option value="B.Tech">B.Tech</option>
-              <option value="BCA ">BCA</option>
-              <option value="MCA ">MCA</option>
-              <option value="MBA ">MBA</option>
-              <option value="BBA ">BBA</option>
+              <option value="BCA">BCA</option>
+              <option value="MCA">MCA</option>
+              <option value="MBA">MBA</option>
+              <option value="BBA">BBA</option>
             </select>
             <div className="flex items-center mb-4">
               <div className="photo w-20 h-20 mr-4">

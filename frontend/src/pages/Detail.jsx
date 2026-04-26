@@ -49,7 +49,7 @@ function Detail() {
             <div className="flex flex-col md:flex-row">
               {blogs?.blogImage && (
                 <img
-                  src={blogs?.blogImage}
+                  src={blogs?.blogImage?.url || blogs?.blogImage}
                   alt="mainblogsImg"
                   className="md:w-1/2 w-full h-125 mb-6 rounded-lg shadow-lg cursor-pointer border"
                 />

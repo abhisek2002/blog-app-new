@@ -49,7 +49,7 @@ function MyBlogs() {
               >
                 {element?.blogImage && (
                   <img
-                    src={element?.blogImage?.url}
+                    src={element?.blogImage?.url || element?.blogImage}
                     alt="blogImg"
                     className="w-full h-48 object-cover"
                   />
