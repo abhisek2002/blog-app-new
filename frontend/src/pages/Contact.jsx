@@ -9,6 +9,7 @@ function Contact() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
   const [loading, setLoading] = React.useState(false);
@@ -24,6 +25,7 @@ function Contact() {
     try {
       await axios.post("https://api.web3forms.com/submit", userInfo);
       toast.success("Message sent successfully");
+      reset();
     } catch (error) {
       toast.error("An error occurred");
     } finally {
