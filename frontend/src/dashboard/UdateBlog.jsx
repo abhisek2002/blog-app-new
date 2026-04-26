@@ -13,6 +13,7 @@ function UdateBlog() {
 
   const [blogImage, setBlogImage] = useState("");
   const [blogImagePreview, setBlogImagePreview] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const changePhotoHandler = (e) => {
     console.log(e);
@@ -59,6 +60,7 @@ function UdateBlog() {
     formData.append("about", about);
 
     formData.append("blogImage", blogImage);
+    setLoading(true);
 
     try {
       const { data } = await axios.put(
@@ -77,6 +79,8 @@ function UdateBlog() {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message || "Please fill the required fields");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -135,12 +139,13 @@ function UdateBlog() {
                onChange={(e) => setAbout(e.target.value)}
              />
 
-             <button
-               className="w-full p-3 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-               onClick={handleUpdate}
-             >
-               UPDATE
-             </button>
+              <button
+                disabled={loading}
+                className={`w-full p-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                onClick={handleUpdate}
+              >
+                {loading ? "Updating..." : "UPDATE"}
+              </button>
            </form>
          </section>
        </div>

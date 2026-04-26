@@ -19,6 +19,7 @@ function Register() {
   const [education, setEducation] = useState("");
   const [photo, setPhoto] = useState("");
   const [photoPreview, setPhotoPreview] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const changePhotoHandler = (e) => {
     console.log(e);
@@ -41,6 +42,7 @@ function Register() {
     formData.append("role", role);
     formData.append("education", education);
     formData.append("photo", photo);
+    setLoading(true);
     try {
       const { data } = await axios.post(
         "http://localhost:4000/api/users/register",
@@ -70,9 +72,11 @@ function Register() {
       navigateTo("/");
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.message || "Please fill the required fields",{
-        duration:3000,
+      toast.error(error.response?.data?.message || "Please fill the required fields", {
+        duration: 3000,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -163,9 +167,10 @@ function Register() {
             </p>
             <button
               type="submit"
-              className="w-full p-2 bg-blue-500 hover:bg-blue-800 duration-300 rounded-md text-white"
+              disabled={loading}
+              className={`w-full p-2 bg-blue-500 hover:bg-blue-800 duration-300 rounded-md text-white ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              Register
+              {loading ? "Registering..." : "Register"}
             </button>
           </form>
         </div>

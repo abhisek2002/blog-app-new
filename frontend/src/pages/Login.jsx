@@ -11,23 +11,26 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState(""); 
+    const [loading, setLoading] = useState(false);
 
-    const handleLogin = async (e) =>{
+    const handleLogin = async (e) => {
       e.preventDefault();
-
+      setLoading(true);
       try {
         const { data } = await axios.post(
           "http://localhost:4000/api/users/login",
-          { email, password, role },{
+          { email, password, role },
+          {
             withCredentials: true,
-            headers:{
+            headers: {
               "Content-Type": "application/json",
-            }
-          })
+            },
+          }
+        );
         console.log(data);
-        localStorage.setItem("jwt",data.token);
-        toast.success(data.message || "User logged in successfully",{
-          duration:3000,
+        localStorage.setItem("jwt", data.token);
+        toast.success(data.message || "User logged in successfully", {
+          duration: 3000,
         });
         setProfile(data);
         setIsAuthenticated(true);
@@ -37,9 +40,11 @@ function Login() {
         navigateTo("/");
       } catch (error) {
         console.log(error);
-        toast.error(error.response.data.message || "Please fill the required fields",{
-          duration:3000,
+        toast.error(error.response.data.message || "Please fill the required fields", {
+          duration: 3000,
         });
+      } finally {
+        setLoading(false);
       }
     };
   
@@ -87,9 +92,10 @@ function Login() {
             </p>
             <button
               type="submit"
-              className="w-full p-2 bg-blue-500 hover:bg-blue-800 duration-300 rounded-md text-white"
+              disabled={loading}
+              className={`w-full p-2 bg-blue-500 hover:bg-blue-800 duration-300 rounded-md text-white ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
         </div>

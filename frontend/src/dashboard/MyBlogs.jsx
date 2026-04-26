@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 function MyBlogs() {
 
   const [myBlogs, setMyBlogs] = useState([]);
+  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     const fetchMyBlogs = async () => {
@@ -24,6 +25,7 @@ function MyBlogs() {
   }, []);
 
   const handleDelete = async (id) => {
+    setDeletingId(id);
     await axios
       .delete(`http://localhost:4000/api/blogs/delete/${id}`, {
         withCredentials: true,
@@ -34,6 +36,9 @@ function MyBlogs() {
       })
       .catch((error) => {
         toast.error(error.response.message || "Failed to delete blog");
+      })
+      .finally(() => {
+        setDeletingId(null);
       });
   };
 
@@ -71,9 +76,10 @@ function MyBlogs() {
                     </Link>
                     <button
                       onClick={() => handleDelete(element._id)}
-                      className="text-red-500 bg-white rounded-md shadow-lg px-3 py-1 border border-gray-400 hover:underline"
+                      disabled={deletingId === element._id}
+                      className={`text-red-500 bg-white rounded-md shadow-lg px-3 py-1 border border-gray-400 hover:underline ${deletingId === element._id ? "opacity-50 cursor-not-allowed" : ""}`}
                     >
-                      DELETE
+                      {deletingId === element._id ? "Deleting..." : "DELETE"}
                     </button>
                   </div>
                 </div>

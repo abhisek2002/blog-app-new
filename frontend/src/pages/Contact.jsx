@@ -11,6 +11,7 @@ function Contact() {
     watch,
     formState: { errors },
   } = useForm();
+  const [loading, setLoading] = React.useState(false);
 
   const onSubmit = async (data) => {
     const userInfo = {
@@ -19,11 +20,14 @@ function Contact() {
       email: data.email,
       message: data.message,
     };
+    setLoading(true);
     try {
       await axios.post("https://api.web3forms.com/submit", userInfo);
       toast.success("Message sent successfully");
     } catch (error) {
       toast.error("An error occurred");
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -85,9 +89,10 @@ function Contact() {
                 <div>
                   <button
                     type="submit"
-                    className="w-full bg-black text-white px-4 py-2 rounded-lg hover:bg-yellow-600 duration-300 "
+                    disabled={loading}
+                    className={`w-full bg-black text-white px-4 py-2 rounded-lg hover:bg-yellow-600 duration-300 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
-                    Send Message
+                    {loading ? "Sending..." : "Send Message"}
                   </button>
                 </div>
               </form>

@@ -8,6 +8,7 @@ function CreateBlog() {
   const [about, setAbout] = useState("");
   const [blogImage, setBlogImage] = useState("");
   const [blogImagePreview, setBlogImagePreview] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const changePhotoHandler = (e) => {
     // console.log(e);
@@ -29,6 +30,7 @@ function CreateBlog() {
     formData.append("category", category);
     formData.append("about", about);
     formData.append("blogImage", blogImage);
+    setLoading(true);
 
     try {
       const { data } = await axios.post(
@@ -51,6 +53,8 @@ function CreateBlog() {
     } catch (error) {
       console.log(error);
       toast.error(error.message || "Please fill the required fields");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -116,9 +120,10 @@ function CreateBlog() {
 
             <button
               type="submit"
-              className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-200"
+              disabled={loading}
+              className={`w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-200 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              Post Blog
+              {loading ? "Posting..." : "Post Blog"}
             </button>
           </form>
         </div>

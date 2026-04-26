@@ -57,7 +57,7 @@ function Navbar() {
                 Contact
               </Link>
             </ul>
-            <div className="md:hidden" onClick={() => setShow(!show)}>
+            <div className="md:hidden cursor-pointer" onClick={() => setShow(!show)}>
               {show ? <IoCloseSharp size={24} /> : <AiOutlineMenu size={24} />}
             </div>
           </div>
