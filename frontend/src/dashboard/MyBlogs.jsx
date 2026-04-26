@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast'
 
 function MyBlogs() {
 
@@ -38,17 +39,17 @@ function MyBlogs() {
 
   return (
     <div>
-      <div className="container mx-auto my-12 p-4">
+      <div className="container mx-auto my-12 p-4 md:pl-40">
         <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:ml-20">
           {myBlogs && myBlogs.length > 0 ? (
             myBlogs.map((element) => (
-              <div
+              <Link to={`/blog/${element?._id}`}
                 className="bg-white shadow-lg rounded-lg overflow-hidden"
                 key={element._id}
               >
                 {element?.blogImage && (
                   <img
-                    src={element?.blogImage.url}
+                    src={element?.blogImage?.url}
                     alt="blogImg"
                     className="w-full h-48 object-cover"
                   />
@@ -62,6 +63,7 @@ function MyBlogs() {
                   </h4>
                   <div className="flex justify-between mt-4">
                     <Link
+                    
                       to={`/blog/update/${element._id}`}
                       className="text-blue-500 bg-white rounded-md shadow-lg px-3 py-1 border border-gray-400 hover:underline"
                     >
@@ -75,7 +77,7 @@ function MyBlogs() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))
           ) : (
             <p className="text-center text-gray-500">

@@ -36,7 +36,7 @@ function Creators() {
            <img
              src={creator.photo.url}
              alt="avatar"
-             className="w-full h-40 object-cover"
+             className="w-full h-60 object-cover"
            />
            <div className="absolute inset-x-0 bottom-0 transform translate-y-1/2">
              <img

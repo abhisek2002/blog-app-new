@@ -1,23 +1,19 @@
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthProvider';
 
 function Login() {
+    const {isAuthenticated,setIsAuthenticated,setProfile} = useAuth();
+    const navigateTo = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState(""); 
 
     const handleLogin = async (e) =>{
       e.preventDefault();
-
-      if(!email || !password || !role){
-        toast.error("Please fill all the fields",{
-          duration:3000,
-        });
-        return;
-      }
 
       try {
         const { data } = await axios.post(
@@ -33,12 +29,15 @@ function Login() {
         toast.success(data.message || "User logged in successfully",{
           duration:3000,
         });
+        setProfile(data);
+        setIsAuthenticated(true);
         setEmail("");
         setPassword("");
         setRole("");
+        navigateTo("/");
       } catch (error) {
         console.log(error);
-        toast.error(error.message || "Please fill the required fields",{
+        toast.error(error.response.data.message || "Please fill the required fields",{
           duration:3000,
         });
       }

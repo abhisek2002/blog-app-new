@@ -1,10 +1,15 @@
 import React from 'react'
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthProvider';
 
 function Register() {
+
+  const { isAuthenticated, setIsAuthenticated, setProfile } = useAuth();
+
+  const navigateTo = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -52,8 +57,8 @@ function Register() {
       toast.success(data.message || "User registered successfully",{
         duration:3000,
       });
-      // setProfile(data);
-      // setIsAuthenticated(true);
+      setProfile(data);
+      setIsAuthenticated(true);
       setName("");
       setEmail("");
       setPhone("");
@@ -62,7 +67,7 @@ function Register() {
       setEducation("");
       setPhoto("");
       setPhotoPreview("");
-      // navigateTo("/");
+      navigateTo("/");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message || "Please fill the required fields",{

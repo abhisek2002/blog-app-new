@@ -12,6 +12,9 @@ import Register from '../src/pages/Register';
 import Dashboard from '../src/pages/Dashboard';
 import { useAuth } from './context/AuthProvider';
 import { Toaster } from 'react-hot-toast';
+import UpdateBlog from '../src/dashboard/UdateBlog'
+import Detail from '../src/pages/Detail';
+import NotFound from './pages/NotFound';
 
 function App() {
 
@@ -20,8 +23,9 @@ function App() {
     location.pathname,
   );
 
-  const {blogs} = useAuth();
+  const {blogs, isAuthenticated} = useAuth();
   // console.log("Blogs from context:", blogs);
+  console.log(isAuthenticated);
 
   return (
     <div>
@@ -35,6 +39,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/blog/:id"  element={<Detail />} />
+        <Route path='/blog/update/:id' element={<UpdateBlog />} />
+
+        <Route path='*' element={<NotFound />} />
       </Routes>
       <Toaster />
       {!hideNavbarFooter && <Footer />}
